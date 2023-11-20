@@ -1,11 +1,29 @@
-import { ContactCard } from "components/ContactCard/ContactCard";
+import { ContactCard } from 'components/ContactCard/ContactCard';
+import { useSelector } from 'react-redux';
 
-export const ContactList = ({ contacts, onDelete }) => {
+import { getContacts, getFilter } from 'redux/selectors';
+
+const getVisibleContacts = (contacts, filterName) => {
+  if (filterName === '') {
+    return contacts;
+  }
+  return contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filterName.toLowerCase())
+  );
+};
+
+export const ContactList = () => {
+  const contacts = useSelector(getContacts);
+
+  const filterName = useSelector(getFilter);
+  console.log(filterName);
+  const visibleContacts = getVisibleContacts(contacts, filterName);
+
   return (
     <ul>
-      {contacts.map(contact => (
+      {visibleContacts.map(contact => (
         <li key={contact.id}>
-         <ContactCard contactInfo={contact} onDelete={onDelete}/>
+          <ContactCard contactInfo={contact} />
         </li>
       ))}
     </ul>

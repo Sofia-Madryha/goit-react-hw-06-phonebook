@@ -1,7 +1,10 @@
-export const ContactCard = ({
-  contactInfo: { id, name, number },
-  onDelete,
-}) => {
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactSlice';
+
+export const ContactCard = ({ contactInfo: { id, name, number } }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => dispatch(deleteContact(id));
   return (
     <div>
       <p>
@@ -9,7 +12,7 @@ export const ContactCard = ({
       </p>
       <button
         onClick={() => {
-          onDelete(id);
+          handleDelete(id);
         }}
       >
         Delete
